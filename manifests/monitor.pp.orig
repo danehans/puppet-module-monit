@@ -1,5 +1,4 @@
-define monit::monitor($pidfile='',
-		      $monitor_address='localhost',
+define monit::monitor($pidfile,
                       $ensure=present,
                       $ip_port=0,
                       $socket='',
@@ -7,7 +6,7 @@ define monit::monitor($pidfile='',
 
   file { "/etc/monit/conf.d/$name.conf":
     ensure  => $ensure,
-    content => template("monit/$name.conf.erb"),
+    content => template('monit/process.conf.erb'),
     notify  => Service['monit'],
     require => Package['monit'],
   }

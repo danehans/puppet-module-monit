@@ -1,0 +1,9 @@
+check host <%= name %> with address <%= monitor_address %>
+  start program = "/etc/init.d/<%= name %> start"
+  stop program  = "/etc/init.d/<%= name %> stop"
+  if failed host <%= monitor_address %> port 5000 type tcp protocol http then restart
+  if failed host <%= monitor_address %> port 35357 type tcp protocol http then restart
+<% checks.each do |check| -%>
+  <%= check %>
+<% end -%>
+  group <%= name %>
