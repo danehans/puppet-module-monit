@@ -64,7 +64,7 @@ or variable of your OpenStack node.
     monit::monitor { 'novnc':}
     
     monit::monitor { 'keystone':
-      monitor_address => $,
+      monitor_address => $controller_mgt_ip,
     }
     
     monit::monitor { 'glance-api':
