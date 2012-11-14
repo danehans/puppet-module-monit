@@ -7,6 +7,11 @@ of running processes.
 Tested on Debian GNU/Linux 6.0 Squeeze. Patches for other
 operating systems welcome.
 
+The original module has been extended to support OpenStack implementations.
+Please read the Usage Section so you understand the details of deploying Monit
+for OpenStack.  The Monit for OpenStack additionas have been tested on Ubuntu Precise
+and OpenStack Essex.
+
 
 Installation
 ------------
@@ -14,7 +19,7 @@ Installation
 Clone this repo to a monit directory under your Puppet
 modules directory:
 
-    git clone git://github.com/uggedal/puppet-module-monit.git monit
+    git clone git://github.com/danehans/puppet-module-monit.git monit
 
 If you don't have a Puppet Master you can create a manifest file
 based on the notes below and run Puppet in stand-alone mode
@@ -41,6 +46,39 @@ Note that the name needs to be the same as an init script in `/etc/init.d`:
     monit::monitor { "ssh":
       pidfile => "/var/run/sshd.pid",
     }
+
+Here is a list of supported OpenStack service definitions.  Make sure you only define services
+that are expected to run on the OpenStack node.  Replace $controller_mgt_ip with the IP address
+or variable of your OpenStack node.
+
+    monit::monitor { 'ntp':}
+
+    monit::monitor { 'ssh':}
+
+    monit::monitor { 'apache2':}
+    
+    monit::monitor { 'memcached':}
+    
+    monit::monitor { 'rabbitmq-server':}
+    
+    monit::monitor { 'novnc':}
+    
+    monit::monitor { 'keystone':
+      monitor_address => $,
+    }
+    
+    monit::monitor { 'glance-api':
+      monitor_address => $controller_mgt_ip,
+    }
+
+    monit::monitor { 'glance-registry':
+      monitor_address => $controller_mgt_ip,
+    }
+
+    monit::monitor { 'nova-api':
+      monitor_address => $controller_mgt_ip,
+    }
+
 
 You can specify a IP port to check if you're running a network process:
 
